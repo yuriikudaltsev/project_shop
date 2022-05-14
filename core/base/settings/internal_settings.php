@@ -23,11 +23,13 @@
           'scripts' => []
   ];
 
+  use core\base\exeptions\RouteException;
+
   function avtoloadMainClasses($class_name) {
     $class_name = str_replace('\\', '/', '$class_name');
 
-    if(!@include_once $class_name . '.php') {
-      throw new RouteExeption('Не вірне імя файлу - ' . $class_name);
+    if(!@include_once $class_name . '.php'); {
+      throw new RouteException('Не вірне імя файлу - ' . $class_name);
     }
   }
 
