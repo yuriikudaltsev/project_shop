@@ -23,16 +23,14 @@
           'scripts' => []
   ];
 
-  use core\base\exeptions\RouteException;
+  use core\base\exceptions\RouteException;
 
-  function avtoloadMainClasses($class_name) {
-    $class_name = str_replace('\\', '/', '$class_name');
+ function autoloadMainClasses($class_name) {
+   $class_name = str_replace('\\', '/', $class_name);
 
-    if(!@include_once $class_name . '.php'); {
-      throw new RouteException('Не вірне імя файлу - ' . $class_name);
-    }
-  }
+   if(!@include_once $class_name . '.php') {
+    throw new RouteException('Не не правильне імя файлу! - ' . $class_name);
+   }
+ }
 
-  spl_autoload_register('avtoloadMainClasses');
-
- ?>
+  spl_autoload_register(autoloadMainClasses);
