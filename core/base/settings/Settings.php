@@ -65,10 +65,39 @@ class Settings
             $property = $class::get($name);
 
             if(is_array($property)  && is_array($item)) {
-                $baseProperties[$name] = array_merge_recursive($this->$name, $property);
+                $baseProperties[$name] = $this->arrayMergeRecurcive($this->$name, $property);
+                continue;
+            }
+            if(!$property) {
+                $baseProperties[$name] = $this->$name;
             }
         }
-        exit();
+        return $baseProperties;
+    }
+
+    public function arrayMergeRecurcive() {
+        $arrays = func_get_arg();
+
+        $base = array_shift($arrays);
+
+        foreach ($arrays as $array) {
+            foreach ($array as $key => $value) {
+                if(is_array($value) && is_array($base[$key])) {
+                    $base[$key] = $this->arrayMergeRecurcive($base[$key], $value);
+                }else{
+                    if(is_int($key)) {
+                        if(!in_array($value, $base)) {
+                            array_push($base, $value);
+                            continue;
+                        }
+                        $base[$key] = $value;
+                    }
+                }
+            }
+        }
+
+        return $base;
+
     }
 
 }
